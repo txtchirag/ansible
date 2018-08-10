@@ -1,0 +1,15 @@
+--- #
+ - hosts: all 
+   become: yes
+   remote_user: ansible 
+   tasks:
+
+   - name: installing apache on nodes
+     yum:
+       name: httpd
+       state: absent 
+
+   - name: Restarting the Apache service
+     service:
+       name: httpd
+       state: stopped

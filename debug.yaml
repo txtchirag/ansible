@@ -1,0 +1,9 @@
+--- #
+ - hosts: boa
+   become: yes
+   remote_user: ansible
+   connection: ssh
+   vars:
+     motd_value: "{{ lookup('file', '/tmp/abc.txt') }}"
+   tasks:
+     - debug: msg={{ motd_value }}

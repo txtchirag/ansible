@@ -1,0 +1,16 @@
+--- #
+ - hosts: boa
+   become: yes
+   remote_user: ansible
+   vars:
+     web_package: http
+     remote_access: telnet
+     one_more: mariadb
+   tasks:
+     - name: get file
+       get_url:
+         url: "https://speed.hetzner.de/10GB.bin"
+         mode: 777
+         dest: /tmp/test
+       async: 20
+       poll: 5

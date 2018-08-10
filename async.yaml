@@ -1,0 +1,18 @@
+---
+# Requires ansible 1.8+
+ - hosts: local
+   tasks
+     - name: YUM - async task
+       yum:
+         name: docker-io
+         state: installed
+       async: 1000
+       poll: 0
+       register: yum_sleeper
+
+     - name: YUM - check on async task
+       async_status:
+         jid: "{{ yum_sleeper.ansible_job_id }}"
+       register: job_result
+       until: job_result.finished
+       retries: 30

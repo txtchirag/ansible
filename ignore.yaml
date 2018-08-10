@@ -1,0 +1,25 @@
+--- #
+ - hosts: boa
+   become: yes
+   remote_user: ansible
+   vars:
+     web_package: http
+     remote_access: telnet
+     one_more: mariadb
+   tasks:
+     - block:
+         - name: installing apache nodes
+           yum:
+             name: "{{ web_package }}"
+             state: latest
+           ignore_error: yes
+       rescue:
+         - name: installing Telnet
+           yum:
+             name: "{{ remote_access }}"
+             state: latest
+       always:
+         - name: running default
+           yum:
+             name: "{{ one_more }}"
+             state: latest

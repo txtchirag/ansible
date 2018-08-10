@@ -1,0 +1,10 @@
+[local]
+localhost
+
+[boa]
+master.chennai.com
+slave.chennai.com
+
+[client]
+192.168.202.130
+

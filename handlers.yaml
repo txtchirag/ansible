@@ -1,0 +1,15 @@
+--- #
+ - hosts: boa 
+   become: yes
+   remote_user: ansible
+   tasks:
+   - name: confirm user
+     user:
+       name: ganesh
+       state: absent
+     notify: test_one
+   handlers:
+   - name: test_one 
+     service:
+       name: httpd
+       state: stopped

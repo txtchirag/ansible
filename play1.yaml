@@ -1,0 +1,43 @@
+--- #
+ - hosts: all
+   become: yes
+   remote_user: ansible
+   tasks:
+
+   - name: installing httpd
+     yum:
+       name: httpd
+       state: present
+
+   - name: Restarting the Apache service
+     service:
+       name: httpd
+       state: started
+
+   - name: create index.html
+     file:
+       path: /home/ansible/index.html
+       state: touch
+       mode: 0777
+
+   - name: copy content to index.html
+     copy:
+       content: "Welcome"
+       dest: /var/www/html/index.html
+
+   - name: service httpd enabled
+     service:
+       service: httpd
+       state: restarted
+       enabled: true
+
+   - name: firewall for service httpd enabled
+     firewalld:
+       service: http
+       state: enabled
+       permanent: true
+
+   - name: run my page
+     shell: "curl -s http://localhost"
+     register: out
+   - debug: var=out.stdout_lines
